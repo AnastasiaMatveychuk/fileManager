@@ -88,6 +88,28 @@ class FileManager:
             self.show_error("Указана не директория.")
         else:
             self.current_directory = full_path
+            
+    def create_file(self, file_name):
+        full_path = os.path.join(self.current_directory, file_name)
+        if not self.is_valid_path(file_name):
+            self.show_error("Невозможно создать файл за пределами рабочей папки.")
+        elif os.path.exists(full_path):
+            self.show_error("Файл уже существует.")
+        else:
+            open(full_path, 'a', encoding='utf-8').close()
+            print("Файл успешно создан.")
+            
+    def delete_file(self, file_name):
+        full_path = os.path.join(self.current_directory, file_name)
+        if not self.is_valid_path(file_name):
+            self.show_error("Невозможно удалить файл за пределами рабочей папки.")
+        elif not os.path.exists(full_path):
+            self.show_error("Файл не существует.")
+        elif os.path.isdir(full_path):
+            self.show_error("Указан не файл.")
+        else:
+            os.remove(full_path)
+            print("Файл успешно удален.")
 
     def run(self):
         while True:
@@ -119,6 +141,12 @@ class FileManager:
             elif command_name == "cd":
                 directory_name = command_args[0]
                 self.change_directory(directory_name)
+            elif command_name == "create_file":
+                file_name = command_args[0]
+                self.create_file(file_name)
+            elif command_name == "delete_file":
+                file_name = command_args[0]
+                self.delete_file(file_name)
             else:
                 self.show_error("Неверная команда. Пожалуйста, введите команду еще раз.")
 
