@@ -23,6 +23,13 @@ class FileManager:
             modified_time = datetime.fromtimestamp(os.path.getmtime(item_path)).strftime("%Y-%m-%d %H:%M:%S")
             print(f"{'Имя':<25} {'Размер':<10} {'Изменено'}")
             print(f"{item:<25} {size:<10} {modified_time}")
+    
+    def show_error(self, message):
+        print(f"****** Ошибка: {message} ******")
+        
+    def is_valid_path(self, path):
+        full_path = os.path.join(self.current_directory, path)
+        return os.path.abspath(full_path).startswith(os.path.abspath(self.working_directory))
 
     def run(self):
         self.list_files()
