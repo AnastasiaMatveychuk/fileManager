@@ -1,6 +1,7 @@
 import os
 import configparser
 from datetime import datetime
+import shutil
 
 class FileManager:
     def __init__(self, config_file="settings.ini"):
@@ -54,6 +55,39 @@ class FileManager:
     def get_relative_path(self, path):
         relative_path = os.path.relpath(path, self.working_directory)
         return relative_path if relative_path.startswith(os.sep) else os.sep + relative_path
+    
+    def create_directory(self, directory_name):
+        full_path = os.path.join(self.current_directory, directory_name)
+        if not self.is_valid_path(directory_name):
+            self.show_error("Невозможно создать директорию за пределами рабочей папки.")
+        elif os.path.exists(full_path):
+            self.show_error("Директория уже существует.")
+        else:
+            os.mkdir(full_path)
+            print("Директория успешно создана.")
+
+    def delete_directory(self, directory_name):
+        full_path = os.path.join(self.current_directory, directory_name)
+        if not self.is_valid_path(directory_name):
+            self.show_error("Невозможно удалить директорию за пределами рабочей папки.")
+        elif not os.path.exists(full_path):
+            self.show_error("Директория не существует.")
+        elif not os.path.isdir(full_path):
+            self.show_error("Указан не директория.")
+        else:
+            shutil.rmtree(full_path)
+            print("Директория успешно удалена вместе с ее содержимым.")
+            
+    def change_directory(self, directory_name):
+        full_path = os.path.join(self.current_directory, directory_name)
+        if not self.is_valid_path(directory_name):
+            self.show_error("Невозможно перейти в директорию за пределами рабочей папки.")
+        elif not os.path.exists(full_path):
+            self.show_error("Директория не существует.")
+        elif not os.path.isdir(full_path):
+            self.show_error("Указана не директория.")
+        else:
+            self.current_directory = full_path
 
     def run(self):
         while True:
@@ -76,6 +110,15 @@ class FileManager:
 
             if command_name == "exit":
                 break
+            elif command_name == "create_dir":
+                directory_name = command_args[0]
+                self.create_directory(directory_name)
+            elif command_name == "delete_dir":
+                directory_name = command_args[0]
+                self.delete_directory(directory_name)
+            elif command_name == "cd":
+                directory_name = command_args[0]
+                self.change_directory(directory_name)
             else:
                 self.show_error("Неверная команда. Пожалуйста, введите команду еще раз.")
 
