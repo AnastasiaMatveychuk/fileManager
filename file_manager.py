@@ -159,6 +159,24 @@ class FileManager:
             shutil.copy(source_full_path, destination_full_path)
             print("Файл успешно скопирован.")
 
+    def move_file(self, source_file_name, destination_file_name):
+        source_full_path = os.path.join(self.current_directory, source_file_name)
+        destination_full_path = os.path.join(self.current_directory, destination_file_name)
+
+        if not self.is_valid_path(source_file_name):
+            self.show_error("Невозможно переместить файл за пределами рабочей папки.")
+        elif not os.path.exists(source_full_path):
+            self.show_error("Исходный файл не существует.")
+        elif os.path.isdir(source_full_path):
+            self.show_error("Указан не файл.")
+        elif not self.is_valid_path(destination_file_name):
+            self.show_error("Невозможно переместить файл за пределами рабочей папки.")
+        elif os.path.exists(destination_full_path):
+            self.show_error("Файл с таким именем уже существует.")
+        else:
+            shutil.move(source_full_path, destination_full_path)
+            print("Файл успешно перемещен.")
+
     def run(self):
         while True:
             relative_current_directory = self.get_relative_path(self.current_directory)
@@ -204,6 +222,9 @@ class FileManager:
             elif command_name == "copy_file" :
                 source, destination = command_args
                 self.copy_file(source, destination)
+            elif command_name == "move_file":
+                source, destination = command_args
+                self.move_file(source, destination)
             else:
                 self.show_error("Неверная команда. Пожалуйста, введите команду еще раз.")
 
