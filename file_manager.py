@@ -2,6 +2,7 @@ import os
 import configparser
 from datetime import datetime
 import shutil
+import sys
 
 class FileManager:
     def __init__(self, config_file="settings.ini"):
@@ -110,6 +111,35 @@ class FileManager:
         else:
             os.remove(full_path)
             print("Файл успешно удален.")
+            
+    def write_to_file(self, file_name):
+        full_path = os.path.join(self.current_directory, file_name)
+        if not self.is_valid_path(file_name):
+            self.show_error("Невозможно записать в файл за пределами рабочей папки.")
+        elif not os.path.exists(full_path):
+            self.show_error("Файл не существует. Создайте файл перед записью.")
+        elif os.path.isdir(full_path):
+            self.show_error("Указан не файл.")
+        else:
+            print("Введите текст для добавления в файл. Завершите ввод с помощью Ctrl+D (в UNIX-системах) или Ctrl+Z (в Windows).")
+            text = sys.stdin.read()
+            with open(full_path, 'a', encoding='utf-8') as file:
+                file.write(text)
+            print("Текст успешно добавлен в файл.")
+
+    def read_file(self, file_name):
+        full_path = os.path.join(self.current_directory, file_name)
+        if not self.is_valid_path(file_name):
+            self.show_error("Невозможно прочитать файл за пределами рабочей папки.")
+        elif not os.path.exists(full_path):
+            self.show_error("Файл не существует.")
+        elif os.path.isdir(full_path):
+            self.show_error("Указан не файл.")
+        else:
+            with open(full_path, 'r', encoding='utf-8') as file:
+                content = file.read()
+            print("Содержимое файла:")
+            print(content)
 
     def run(self):
         while True:
@@ -147,6 +177,12 @@ class FileManager:
             elif command_name == "delete_file":
                 file_name = command_args[0]
                 self.delete_file(file_name)
+            elif command_name == "write_to_file":
+                file_name = command_args[0]
+                self.write_to_file(file_name)
+            elif command_name == "read_file":
+                file_name = command_args[0]
+                self.read_file(file_name)
             else:
                 self.show_error("Неверная команда. Пожалуйста, введите команду еще раз.")
 
