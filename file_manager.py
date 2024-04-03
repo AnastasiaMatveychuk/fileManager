@@ -31,7 +31,7 @@ class FileManager:
 
     # функция выводит сообщение об ошибке
     def print_error(self, message):
-        print(f"****** Ошибка: {message} ******")
+        print(f" Ошибка: {message} ")
 
     # функция валидирует путь, проверяя, что он находится в пределах рабочей директории
     def validate_path(self, path):
@@ -69,7 +69,7 @@ class FileManager:
     def create_dir(self, directory_name):
         full_path = os.path.join(self.current_directory, directory_name)
         if not self.validate_path(directory_name):
-            self.print_error("Невозможно создать директорию за пределами рабочей папки.")
+            self.print_error("Файл находится не в рабочей папке.")
         elif os.path.exists(full_path):
             self.print_error("Директория уже существует.")
         else:
@@ -80,7 +80,7 @@ class FileManager:
     def delete_dir(self, directory_name):
         full_path = os.path.join(self.current_directory, directory_name)
         if not self.validate_path(directory_name):
-            self.print_error("Невозможно удалить директорию за пределами рабочей папки.")
+            self.print_error("Файл находится не в рабочей папке.")
         elif not os.path.exists(full_path):
             self.print_error("Директория не существует.")
         elif not os.path.isdir(full_path):
@@ -93,7 +93,7 @@ class FileManager:
     def cd(self, directory_name):
         full_path = os.path.join(self.current_directory, directory_name)
         if not self.validate_path(directory_name):
-            self.print_error("Невозможно перейти в директорию за пределами рабочей папки.")
+            self.print_error("Файл находится не в рабочей папке.")
         elif not os.path.exists(full_path):
             self.print_error("Директория не существует.")
         elif not os.path.isdir(full_path):
@@ -105,7 +105,7 @@ class FileManager:
     def create_file(self, file_name):
         full_path = os.path.join(self.current_directory, file_name)
         if not self.validate_path(file_name):
-            self.print_error("Невозможно создать файл за пределами рабочей папки.")
+            self.print_error("Файл находится не в рабочей папке.")
         elif os.path.exists(full_path):
             self.print_error("Файл уже существует.")
         else:
@@ -116,41 +116,41 @@ class FileManager:
     def delete_file(self, file_name):
         full_path = os.path.join(self.current_directory, file_name)
         if not self.validate_path(file_name):
-            self.print_error("Невозможно удалить файл за пределами рабочей папки.")
+            self.print_error("Файл находится не в рабочей папке.")
         elif not os.path.exists(full_path):
             self.print_error("Файл не существует.")
         elif os.path.isdir(full_path):
             self.print_error("Указан не файл.")
         else:
             os.remove(full_path)
-            print("Файл успешно удален.")
+            print("Файл удален.")
 
     # функция записывает данные в файл
     def write_to_file(self, file_name):
         full_path = os.path.join(self.current_directory, file_name)
         if not self.validate_path(file_name):
-            self.print_error("Невозможно записать в файл за пределами рабочей папки.")
+            self.print_error("Файл находится не в рабочей папке.")
         elif not os.path.exists(full_path):
             self.print_error("Файл не существует. Создайте файл перед записью.")
         elif os.path.isdir(full_path):
             self.print_error("Указан не файл.")
         else:
             print(
-                "Введите текст для добавления в файл. Завершите ввод с помощью Ctrl+D (в UNIX-системах) или Ctrl+Z (в Windows).")
+                "Введите текст для добавления в файл. Завершите ввод с помощью или Ctrl+Z (в Windows).")
             text = sys.stdin.read()
             with open(full_path, 'a', encoding='utf-8') as file:
                 file.write(text)
-            print("Текст успешно добавлен в файл.")
+            print("Текст добавлен в файл.")
 
     # функция читает данные из файла
     def read_file(self, file_name):
         full_path = os.path.join(self.current_directory, file_name)
         if not self.validate_path(file_name):
-            self.print_error("Невозможно прочитать файл за пределами рабочей папки.")
+            self.print_error("Файл находится не в рабочей папке.")
         elif not os.path.exists(full_path):
             self.print_error("Файл не существует.")
         elif os.path.isdir(full_path):
-            self.print_error("Указан не файл.")
+            self.print_error("Не указан файл.")
         else:
             with open(full_path, 'r', encoding='utf-8') as file:
                 content = file.read()
@@ -163,13 +163,13 @@ class FileManager:
         destination_full_path = os.path.join(self.current_directory, destination_file_name)
 
         if not self.validate_path(source_file_name):
-            self.print_error("Невозможно копировать файл за пределами рабочей папки.")
+            self.print_error("Файл находится не в рабочей папке.")
         elif not os.path.exists(source_full_path):
-            self.print_error("Исходный файл не существует.")
+            self.print_error("Файл не существует.")
         elif os.path.isdir(source_full_path):
             self.print_error("Указан не файл.")
         elif not self.validate_path(destination_file_name):
-            self.print_error("Невозможно копировать файл за пределами рабочей папки.")
+            self.print_error("Файл находится не в рабочей папке.")
         elif os.path.exists(destination_full_path):
             self.print_error("Файл с таким именем уже существует.")
         else:
@@ -182,13 +182,13 @@ class FileManager:
         destination_full_path = os.path.join(self.current_directory, destination_file_name)
 
         if not self.validate_path(source_file_name):
-            self.print_error("Невозможно переместить файл за пределами рабочей папки.")
+            self.print_error("Файл находится не в рабочей папке.")
         elif not os.path.exists(source_full_path):
-            self.print_error("Исходный файл не существует.")
+            self.print_error("Файл не существует.")
         elif os.path.isdir(source_full_path):
             self.print_error("Указан не файл.")
         elif not self.validate_path(destination_file_name):
-            self.print_error("Невозможно переместить файл за пределами рабочей папки.")
+            self.print_error("Файл находится не в рабочей папке.")
         elif os.path.exists(destination_full_path):
             self.print_error("Файл с таким именем уже существует.")
         else:
@@ -201,13 +201,13 @@ class FileManager:
         destination_full_path = os.path.join(self.current_directory, new_file_name)
 
         if not self.validate_path(source_file_name):
-            self.print_error("Невозможно переименовать файл за пределами рабочей папки.")
+            self.print_error("Файл находится не в рабочей папке.")
         elif not os.path.exists(source_full_path):
-            self.print_error("Исходный файл не существует.")
+            self.print_error("Файл не существует.")
         elif os.path.isdir(source_full_path):
             self.print_error("Указан не файл.")
         elif not self.validate_path(new_file_name):
-            self.print_error("Невозможно переименовать файл за пределами рабочей папки.")
+            self.print_error("Файл находится не в рабочей папке.")
         elif os.path.exists(destination_full_path):
             self.print_error("Файл с таким именем уже существует.")
         else:
@@ -219,9 +219,9 @@ class FileManager:
         while True:
             relative_current_directory = self.get_relative_path(self.current_directory)
             print(f"Текущая директория: {relative_current_directory}")
-            print("-------------------------------")
+            print("")
             self.list_files()
-            print("-------------------------------")
+            print("")
             self.show_help()
             command = input("Введите команду: ").split()
 
