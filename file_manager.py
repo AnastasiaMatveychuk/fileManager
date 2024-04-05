@@ -6,7 +6,7 @@ import sys
 
 
 class FileManager:
-    # конструктор считывает файл конфигурации и инициализирует рабочую директорию
+    # конструктор считывает файл конфигурации, а также инициализирует рабочую директорию
     def __init__(self, config_file="settings.ini"):
         self.config = configparser.ConfigParser()
         self.config.read(config_file)
