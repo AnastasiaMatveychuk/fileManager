@@ -41,16 +41,16 @@ class FileManager:
     # функция выводит список доступных команд
     def show_help(self):
         print("Доступные команды:")
-        print(f"{'create_dir <directory_name>':40} - Создать директорию")
-        print(f"{'delete_dir <directory_name>':40} - Удалить директорию")
-        print(f"{'cd <directory_name>':40} - Перейти в директорию")
-        print(f"{'create_file <file_name>':40} - Создать файл")
-        print(f"{'write_to_file <file_name>':40} - Записать в файл")
-        print(f"{'read_file <file_name>':40} - Прочитать файл")
-        print(f"{'delete_file <file_name>':40} - Удалить файл")
-        print(f"{'copy_file <source> <destination>':40} - Копировать файл")
-        print(f"{'move_file <source> <destination>':40} - Переместить файл")
-        print(f"{'rename_file <source> <new_name>':40} - Переименовать файл")
+        print(f"{'crd <Имя директории>':40} - Создать директорию")
+        print(f"{'dd <Имя директории>':40} - Удалить директорию")
+        print(f"{'cd <Имя директории>':40} - Перейти в директорию")
+        print(f"{'cf <Имя файла>':40} - Создать файл")
+        print(f"{'wf <Имя файла>':40} - Записать в файл")
+        print(f"{'rf <Имя файла>':40} - Прочитать файл")
+        print(f"{'df <Имя файла>':40} - Удалить файл")
+        print(f"{'cof <Пункт> <назначения>':40} - Копировать файл")
+        print(f"{'mf <Пункт> <назначения>':40} - Переместить файл")
+        print(f"{'ref <Пункт> <Новый файл>':40} - Переименовать файл")
         print(f"{'exit':40} - Выйти")
 
     # функция очищает экран консоли
@@ -66,7 +66,7 @@ class FileManager:
         return relative_path if relative_path.startswith(os.sep) else os.sep + relative_path
 
     # функция создает директорию
-    def create_dir(self, directory_name):
+    def crd(self, directory_name):
         full_path = os.path.join(self.current_directory, directory_name)
         if not self.validate_path(directory_name):
             self.print_error("Файл находится не в рабочей папке.")
@@ -77,7 +77,7 @@ class FileManager:
             print("Директория успешно создана.")
 
     # функция удаляет директорию
-    def delete_dir(self, directory_name):
+    def dd(self, directory_name):
         full_path = os.path.join(self.current_directory, directory_name)
         if not self.validate_path(directory_name):
             self.print_error("Файл находится не в рабочей папке.")
@@ -102,7 +102,7 @@ class FileManager:
             self.current_directory = full_path
 
     # функция создает файл
-    def create_file(self, file_name):
+    def cf(self, file_name):
         full_path = os.path.join(self.current_directory, file_name)
         if not self.validate_path(file_name):
             self.print_error("Файл находится не в рабочей папке.")
@@ -113,7 +113,7 @@ class FileManager:
             print("Файл успешно создан.")
 
     # функция удаляет файл
-    def delete_file(self, file_name):
+    def df(self, file_name):
         full_path = os.path.join(self.current_directory, file_name)
         if not self.validate_path(file_name):
             self.print_error("Файл находится не в рабочей папке.")
@@ -126,7 +126,7 @@ class FileManager:
             print("Файл удален.")
 
     # функция записывает данные в файл
-    def write_to_file(self, file_name):
+    def wf(self, file_name):
         full_path = os.path.join(self.current_directory, file_name)
         if not self.validate_path(file_name):
             self.print_error("Файл находится не в рабочей папке.")
@@ -143,7 +143,7 @@ class FileManager:
             print("Текст добавлен в файл.")
 
     # функция читает данные из файла
-    def read_file(self, file_name):
+    def rf(self, file_name):
         full_path = os.path.join(self.current_directory, file_name)
         if not self.validate_path(file_name):
             self.print_error("Файл находится не в рабочей папке.")
@@ -158,7 +158,7 @@ class FileManager:
             print(content)
 
     # функция копирует файл
-    def copy_file(self, source_file_name, destination_file_name):
+    def cof(self, source_file_name, destination_file_name):
         source_full_path = os.path.join(self.current_directory, source_file_name)
         destination_full_path = os.path.join(self.current_directory, destination_file_name)
 
@@ -177,7 +177,7 @@ class FileManager:
             print("Файл успешно скопирован.")
 
     # функция перемещает файл
-    def move_file(self, source_file_name, destination_file_name):
+    def mf(self, source_file_name, destination_file_name):
         source_full_path = os.path.join(self.current_directory, source_file_name)
         destination_full_path = os.path.join(self.current_directory, destination_file_name)
 
@@ -196,7 +196,7 @@ class FileManager:
             print("Файл успешно перемещен.")
 
     # функция переименовывает файл
-    def rename_file(self, source_file_name, new_file_name):
+    def ref(self, source_file_name, new_file_name):
         source_full_path = os.path.join(self.current_directory, source_file_name)
         destination_full_path = os.path.join(self.current_directory, new_file_name)
 
